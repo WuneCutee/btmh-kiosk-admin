@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiosk Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loginView" class="view">
+  <div class="login-box">
+    <h1>Kiosk Admin</h1>
+    <p class="subtitle">Quan tri may kiosk</p>
+    <div id="loginError" class="error-msg" style="display:none;"></div>
+    <form id="loginForm">
+      <label>Tai khoan</label>
+      <input type="text" id="username" autocomplete="username" required>
+      <label>Mat khau</label>
+      <input type="password" id="password" autocomplete="current-password" required>
+      <button type="submit">Dang nhap</button>
+    </form>
+  </div>
+</div>
+
+<div id="appView" class="view" style="display:none;">
+  <header>
+    <h1>Kiosk Admin</h1>
+    <div>
+      <span id="whoami"></span>
+      <button id="logoutBtn" class="btn-link">Dang xuat</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="devices">May Kiosk</button>
+    <button class="tab-btn" data-tab="ads">Quang cao</button>
+  </nav>
+
+  <main>
+    <section id="tab-devices" class="tab-content active">
+      <div class="toolbar">
+        <button id="newDeviceBtn" class="btn-primary">+ Tao may moi</button>
+        <button id="refreshDevicesBtn" class="btn-secondary">Lam moi</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Ma may</th><th>Cua hang</th><th>Trang thai</th><th>Ghi chu</th>
+            <th>Tao luc</th><th>Kich hoat luc</th><th>Hanh dong</th>
+          </tr>
+        </thead>
+        <tbody id="devicesTableBody"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-ads" class="tab-content">
+      <div class="toolbar">
+        <button id="newAdBtn" class="btn-primary">+ Them quang cao</button>
+        <button id="refreshAdsBtn" class="btn-secondary">Lam moi</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Thu tu</th><th>Ten</th><th>Loai media</th><th>Loai hanh dong</th>
+            <th>Trang thai</th><th>URL</th><th>Hanh dong</th>
+          </tr>
+        </thead>
+        <tbody id="adsTableBody"></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<!-- Modal: tao may moi -->
+<div id="newDeviceModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <h2>Tao may kiosk moi</h2>
+    <div id="newDeviceForm">
+      <label>Ma may (deviceCode) *</label>
+      <input type="text" id="dcCode" required>
+      <label>Ma cua hang (storeId)</label>
+      <input type="number" id="dcStoreId">
+      <label>Ten cua hang</label>
+      <input type="text" id="dcStoreName">
+      <label>Ghi chu</label>
+      <input type="text" id="dcNote">
+      <div class="modal-actions">
+        <button id="dcCancel" class="btn-secondary">Huy</button>
+        <button id="dcSubmit" class="btn-primary">Tao may</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: hien thi ma kich hoat -->
+<div id="activationModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <h2>Ma kich hoat</h2>
+    <p class="warn">Canh bao: ma nay chi hien thi 1 LAN DUY NHAT. Hay chup lai hoac ghi lai ngay.</p>
+    <div class="activation-info">
+      <div><b>Ma may:</b> <span id="actDeviceCode"></span></div>
+      <div><b>Ma kich hoat:</b> <span id="actCode" class="mono"></span></div>
+      <div><b>Het han:</b> <span id="actExpires"></span></div>
+      <div><b>QR payload (JSON):</b></div>
+      <textarea id="actQrPayload" readonly rows="3"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button id="actClose" class="btn-primary">Dong</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: them/sua quang cao -->
+<div id="adModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <h2 id="adModalTitle">Them quang cao</h2>
+    <input type="hidden" id="adId">
+    <label>Ten</label>
+    <input type="text" id="adName">
+    <label>Loai media (IMAGE / VIDEO) *</label>
+    <input type="text" id="adMediaType" required>
+    <label>URL media *</label>
+    <input type="text" id="adUrl" required>
+    <label>Loai hanh dong (NONE / PRODUCT / CATEGORY / WEBSITE) *</label>
+    <input type="text" id="adActionType" required>
+    <label>Product ID (neu PRODUCT)</label>
+    <input type="text" id="adProductId">
+    <label>Category ID (neu CATEGORY)</label>
+    <input type="text" id="adCategoryId">
+    <label>Website URL (neu WEBSITE)</label>
+    <input type="text" id="adWebsiteUrl">
+    <label>Thu tu hien thi *</label>
+    <input type="number" id="adDisplayOrder" value="0" required>
+    <div class="modal-actions">
+      <button id="adCancel" class="btn-secondary">Huy</button>
+      <button id="adSubmit" class="btn-primary">Luu</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

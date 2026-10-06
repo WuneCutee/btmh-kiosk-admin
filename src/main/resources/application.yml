@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8090}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5434}/${DB_NAME:localdb}
+    username: ${DB_USER:devbtmh}
+    password: ${DB_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      # QUAN TRONG: 3 bang kiosk_device/kiosk_activation_code/kiosk_ad da ton tai san trong DB cua
+      # webview. KHONG duoc de Hibernate tu doi schema cua nguoi khac dang dung -> dung "validate".
+      # Bang moi kiosk_admin_user duoc tao rieng bang migration SQL (xem KioskAdminUserSchemaInitializer),
+      # khong dua vao ddl-auto.
+      ddl-auto: validate
+    show-sql: ${SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: true
+
+kiosk:
+  jwt:
+    secret: ${KIOSK_JWT_SECRET:kiosk-admin-local-dev-secret-change-me-please-32bytes-min}
+    expiration-ms: ${KIOSK_JWT_EXPIRATION_MS:28800000}
+
+logging:
+  level:
+    vn.baotinmanhhai.kioskadmin: INFO
