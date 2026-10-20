@@ -22,4 +22,7 @@ public class DeviceResponse {
     private Instant activatedAt;
     private Instant lastRotatedAt;
     private boolean forceKeyRotation;
+    /** true neu webview dang giu ket noi SSE mo cho may nay NGAY LUC GOI - khac voi status=ACTIVE
+     * (chi la da kich hoat/chua bi thu hoi, khong phan anh ket noi thuc te). */
+    private boolean online;
 }

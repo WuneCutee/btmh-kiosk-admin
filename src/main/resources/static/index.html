@@ -4,137 +4,781 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kiosk Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="loginView" class="view">
-  <div class="login-box">
-    <h1>Kiosk Admin</h1>
-    <p class="subtitle">Quan tri may kiosk</p>
-    <div id="loginError" class="error-msg" style="display:none;"></div>
-    <form id="loginForm">
-      <label>Tai khoan</label>
-      <input type="text" id="username" autocomplete="username" required>
-      <label>Mat khau</label>
-      <input type="password" id="password" autocomplete="current-password" required>
-      <button type="submit">Dang nhap</button>
-    </form>
+  <div class="login-shell">
+    <div class="login-box">
+      <div class="brand-mark">
+        <div class="brand-logo">BTMH</div>
+        <h1>Kiosk Admin</h1>
+        <p class="subtitle">Quản trị hệ thống máy kiosk &amp; sản phẩm</p>
+      </div>
+      <div id="loginError" class="error-msg" style="display:none;"></div>
+      <form id="loginForm">
+        <label>Tài khoản</label>
+        <input type="text" id="username" autocomplete="username" required placeholder="vd. kioskadmin">
+        <label>Mật khẩu</label>
+        <input type="password" id="password" autocomplete="current-password" required placeholder="••••••••">
+        <button type="submit" class="btn-primary btn-block">Đăng nhập</button>
+      </form>
+    </div>
+    <p class="login-footnote">Bảo Tín Mạnh Hải &mdash; Hệ thống quản trị nội bộ</p>
   </div>
 </div>
 
-<div id="appView" class="view" style="display:none;">
-  <header>
-    <h1>Kiosk Admin</h1>
-    <div>
-      <span id="whoami"></span>
-      <button id="logoutBtn" class="btn-link">Dang xuat</button>
+<div id="appView" class="view app-shell" style="display:none;">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo brand-logo-sm">BTMH</div>
+      <div class="sidebar-brand-text">
+        <strong>Kiosk Admin</strong>
+        <span>Quản trị hệ thống</span>
+      </div>
     </div>
-  </header>
 
-  <nav class="tabs">
-    <button class="tab-btn active" data-tab="devices">May Kiosk</button>
-    <button class="tab-btn" data-tab="ads">Quang cao</button>
-  </nav>
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-tab="overview">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 10.5 10 4l7 6.5M5 9v7h4v-4h2v4h4V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Tổng quan</span>
+      </button>
+      <button class="nav-btn" data-tab="devices">
+        <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="10" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 17h5M10 14v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Máy Kiosk</span>
+      </button>
+      <button class="nav-btn" data-tab="ads">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 8v4h3l5 3V5L6 8H3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 7.5c.8.6 1.3 1.5 1.3 2.5s-.5 1.9-1.3 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Quảng cáo</span>
+      </button>
+      <button class="nav-btn" data-tab="products">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 6.5 10 3l7 3.5-7 3.5-7-3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 6.5V13l7 3.5 7-3.5V6.5M10 10v6.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Sản phẩm</span>
+      </button>
+      <button class="nav-btn" data-tab="categories">
+        <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="3" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="11" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="11" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span>Nhóm sản phẩm</span>
+      </button>
+      <button class="nav-btn" data-tab="banners">
+        <svg viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4.5" width="15" height="11" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="m4.5 13.5 3.5-4 3 3 2-2 2.5 3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Banner</span>
+      </button>
+      <button class="nav-btn" data-tab="stores">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 8 4.5 3.5h11L17 8M3 8h14M3 8v8.5h14V8M8 16.5v-4h4v4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Cửa hàng</span>
+      </button>
+      <button class="nav-btn" data-tab="limits">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 16h14M6 16V9m4 7V5m4 11v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Hạn mức giao dịch</span>
+      </button>
+      <button class="nav-btn" data-tab="config">
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2.2M10 15.3v2.2M2.5 10h2.2M15.3 10h2.2M4.7 4.7l1.6 1.6M13.7 13.7l1.6 1.6M4.7 15.3l1.6-1.6M13.7 6.3l1.6-1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Cấu hình kênh</span>
+      </button>
 
-  <main>
-    <section id="tab-devices" class="tab-content active">
-      <div class="toolbar">
-        <button id="newDeviceBtn" class="btn-primary">+ Tao may moi</button>
-        <button id="refreshDevicesBtn" class="btn-secondary">Lam moi</button>
+      <div class="sidebar-section-label">Nhật ký</div>
+
+      <button class="nav-btn" data-tab="errorlogs">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M10 2 2 17h16L10 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 8v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="14.3" r=".9" fill="currentColor"/></svg>
+        <span>Log lỗi thiết bị</span>
+      </button>
+      <button class="nav-btn" data-tab="auditlogs">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M10 2 3 5v5c0 4.2 3 6.8 7 8 4-1.2 7-3.8 7-8V5l-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Audit log</span>
+      </button>
+      <button class="nav-btn" data-tab="txlogs">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 15V9m4.5 6V5m4.5 10v-4m4.5 4V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Log giao dịch/giá</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="whoamiAvatar">?</div>
+        <div class="user-chip-text">
+          <strong id="whoami"></strong>
+          <span>Quản trị viên</span>
+        </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Ma may</th><th>Cua hang</th><th>Trang thai</th><th>Ghi chu</th>
-            <th>Tao luc</th><th>Kich hoat luc</th><th>Hanh dong</th>
-          </tr>
-        </thead>
-        <tbody id="devicesTableBody"></tbody>
-      </table>
-    </section>
+      <button id="logoutBtn" class="btn-ghost btn-block">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M8 17H4.5A1.5 1.5 0 0 1 3 15.5v-11A1.5 1.5 0 0 1 4.5 3H8M13 14l4-4-4-4M17 10H7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Đăng xuất
+      </button>
+    </div>
+  </aside>
 
-    <section id="tab-ads" class="tab-content">
-      <div class="toolbar">
-        <button id="newAdBtn" class="btn-primary">+ Them quang cao</button>
-        <button id="refreshAdsBtn" class="btn-secondary">Lam moi</button>
+  <div class="main-col">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">Tổng quan</h1>
+        <p id="pageSubtitle" class="page-subtitle">Trạng thái hệ thống máy kiosk và sản phẩm</p>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Thu tu</th><th>Ten</th><th>Loai media</th><th>Loai hanh dong</th>
-            <th>Trang thai</th><th>URL</th><th>Hanh dong</th>
-          </tr>
-        </thead>
-        <tbody id="adsTableBody"></tbody>
-      </table>
-    </section>
-  </main>
+    </header>
+
+    <main>
+      <section id="tab-overview" class="tab-content active">
+        <div class="stat-grid" id="statGrid">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-blue">
+              <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="10" rx="1.6" stroke="currentColor" stroke-width="1.6"/></svg>
+            </div>
+            <div class="stat-body">
+              <span class="stat-label">Tổng số máy</span>
+              <strong class="stat-value" id="statDevicesTotal">&mdash;</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-green">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14l8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-body">
+              <span class="stat-label">Online ngay bây giờ</span>
+              <strong class="stat-value" id="statDevicesActive">&mdash;</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-amber">
+              <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <div class="stat-body">
+              <span class="stat-label">Chờ kích hoạt</span>
+              <strong class="stat-value" id="statDevicesPending">&mdash;</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-red">
+              <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 7.5l5 5m0-5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <div class="stat-body">
+              <span class="stat-label">Đã thu hồi</span>
+              <strong class="stat-value" id="statDevicesRevoked">&mdash;</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-purple">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M3 8v4h3l5 3V5L6 8H3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-body">
+              <span class="stat-label">Quảng cáo đang bật</span>
+              <strong class="stat-value" id="statAdsOn">&mdash;</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-teal">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M3 6.5 10 3l7 3.5-7 3.5-7-3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-body">
+              <span class="stat-label">Sản phẩm đang hiện</span>
+              <strong class="stat-value" id="statProductsVisible">&mdash;</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="card">
+            <div class="card-header">
+              <h2>Máy mới kích hoạt gần đây</h2>
+            </div>
+            <div class="card-body" id="overviewRecentDevices">
+              <p class="empty-hint">Đang tải...</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h2>Hoạt động quản trị gần đây</h2>
+            </div>
+            <div class="card-body" id="overviewRecentAudit">
+              <p class="empty-hint">Đang tải...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-devices" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Danh sách máy kiosk</h2>
+            <div class="toolbar">
+              <button id="newDeviceBtn" class="btn-primary">+ Tạo máy mới</button>
+              <button id="refreshDevicesBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã máy</th><th>Cửa hàng</th><th>Trạng thái</th><th>Online</th><th>Thiết bị / app</th>
+                  <th>Tạo lúc</th><th>Kích hoạt lúc</th><th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="devicesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-ads" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Quảng cáo màn chờ</h2>
+            <div class="toolbar">
+              <button id="newAdBtn" class="btn-primary">+ Thêm quảng cáo</button>
+              <button id="refreshAdsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thứ tự</th><th>Ảnh</th><th>Tên</th><th>Media</th><th>Bấm vào sẽ</th>
+                  <th>Thời lượng</th><th>Dung lượng</th><th>Trạng thái</th><th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="adsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-products" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Sản phẩm (kênh KIOSK)</h2>
+            <div class="toolbar">
+              <button id="newProductBtn" class="btn-primary">+ Tạo sản phẩm</button>
+              <button id="newCategoryBtn" class="btn-secondary">+ Tạo nhóm sản phẩm</button>
+              <button id="refreshProductsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <p class="help-text card-note">Sản phẩm/nhóm sản phẩm ở tab này được quản lý qua admin-portal (kênh KIOSK) -
+          kiosk-admin chỉ là màn hình gọi API của admin-portal, không tự lưu riêng. Giá và tồn kho xem riêng
+          ở nút "Giá" / "Tồn kho" trên mỗi dòng.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã</th><th>Tên</th><th>Danh mục</th><th>Số lượng</th>
+                  <th>Hiển thị</th><th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-categories" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Nhóm sản phẩm (tab trên App)</h2>
+            <div class="toolbar">
+              <button id="newCategoryBtn2" class="btn-primary">+ Tạo nhóm</button>
+              <button id="saveCategoryOrderBtn" class="btn-secondary">Lưu thứ tự</button>
+              <button id="refreshCategoriesBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <p class="help-text card-note">Sửa số ở cột "Thứ tự" rồi bấm "Lưu thứ tự" (số nhỏ hiện trước). Thứ tự là của
+          nhóm, dùng chung mọi kênh. Ẩn/Xóa chỉ tác động kênh KIOSK. App cập nhật trong vài giây.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Thứ tự</th><th>Mã</th><th>Tên</th><th>Mô tả</th><th>Trên App</th><th>Hành động</th></tr>
+              </thead>
+              <tbody id="categoriesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-banners" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Banner (màn danh sách sản phẩm)</h2>
+            <div class="toolbar">
+              <button id="newBannerBtn" class="btn-primary">+ Thêm banner</button>
+              <button id="refreshBannersBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Ưu tiên</th><th>Ảnh</th><th>Mã</th><th>Tên</th><th>Mô tả</th><th>Trạng thái</th><th>Hành động</th></tr>
+              </thead>
+              <tbody id="bannersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-stores" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Cửa hàng nhận hàng (kênh KIOSK)</h2>
+            <div class="toolbar">
+              <input type="text" id="storeSearch" placeholder="Tìm theo tên">
+              <button id="refreshStoresBtn" class="btn-secondary">Tìm / Làm mới</button>
+            </div>
+          </div>
+          <p class="help-text card-note">Bật/tắt cửa hàng chỉ đổi cấu hình kênh KIOSK (kênh ngân hàng không đổi).
+          Cửa hàng tắt sẽ không hiện ở bước chọn nơi nhận hàng trên App.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Mã</th><th>Tên</th><th>Địa chỉ</th><th>Tỉnh/TP</th><th>Trên App</th><th>Hành động</th></tr>
+              </thead>
+              <tbody id="storesTableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button id="storesPrevBtn" class="btn-secondary btn-small">Trang trước</button>
+            <span id="storesPageInfo"></span>
+            <button id="storesNextBtn" class="btn-secondary btn-small">Trang sau</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-limits" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Hạn mức số lượng mỗi giao dịch</h2>
+            <div class="toolbar">
+              <button id="refreshLimitsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <p class="help-text card-note">Số lượng tối đa khách được chọn cho một sản phẩm trong một đơn trên App.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Kênh</th><th>Hạn mức</th><th>Trạng thái</th><th>Cập nhật</th><th>Hành động</th></tr>
+              </thead>
+              <tbody id="limitsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-config" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Cấu hình kênh Kiosk</h2>
+            <div class="toolbar">
+              <button id="refreshConfigBtn" class="btn-secondary">Tải lại</button>
+            </div>
+          </div>
+          <div class="card-body config-form">
+            <div class="form-grid">
+              <div>
+                <label>Giờ mở bán (HH:mm)</label>
+                <input type="time" id="cfgOpenTime">
+              </div>
+              <div>
+                <label>Giờ đóng bán (HH:mm)</label>
+                <input type="time" id="cfgCloseTime">
+              </div>
+              <div>
+                <label>Hotline *</label>
+                <input type="text" id="cfgHotline">
+              </div>
+              <div>
+                <label>Phiên bản app tối thiểu (x.y.z) *</label>
+                <input type="text" id="cfgMinAppVersion">
+              </div>
+              <div>
+                <label>Thời gian chờ về màn quảng cáo (giây, 15-3600) *</label>
+                <input type="number" id="cfgIdleTimeout" min="15" max="3600">
+              </div>
+              <div>
+                <label>Giá cũ quá bao lâu thì chặn mua (giây, 30-3600) *</label>
+                <input type="number" id="cfgStalePrice" min="30" max="3600">
+              </div>
+            </div>
+            <label class="checkbox-row"><input type="checkbox" id="cfgPaused"> Tạm dừng bán trên toàn bộ máy kiosk</label>
+            <p class="help-text">Để trống cả 2 ô giờ = bán cả ngày. Lưu xong máy kiosk nhận cấu hình mới ngay (qua kết nối realtime).</p>
+            <div class="modal-actions" style="padding:0; border:0; margin-top:16px;">
+              <button id="saveConfigBtn" class="btn-primary">Lưu cấu hình</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-errorlogs" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Log lỗi từ máy kiosk</h2>
+            <div class="toolbar">
+              <input type="text" id="errorLogDeviceCode" placeholder="Lọc theo mã máy (tùy chọn)">
+              <button id="refreshErrorLogsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã máy</th><th>Loại lỗi</th><th>Thông báo</th><th>Ngữ cảnh</th><th>Lúc xảy ra</th><th>Lúc nhận</th>
+                </tr>
+              </thead>
+              <tbody id="errorLogsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button id="errorLogsPrevBtn" class="btn-secondary btn-small">Trang trước</button>
+            <span id="errorLogsPageInfo"></span>
+            <button id="errorLogsNextBtn" class="btn-secondary btn-small">Trang sau</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-auditlogs" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Audit log thao tác quản trị</h2>
+            <div class="toolbar">
+              <button id="refreshAuditLogsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thời gian</th><th>Tài khoản</th><th>Hành động</th><th>Đối tượng</th><th>Chi tiết</th><th>IP</th>
+                </tr>
+              </thead>
+              <tbody id="auditLogsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button id="auditLogsPrevBtn" class="btn-secondary btn-small">Trang trước</button>
+            <span id="auditLogsPageInfo"></span>
+            <button id="auditLogsNextBtn" class="btn-secondary btn-small">Trang sau</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-txlogs" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h2>Log giao dịch API</h2>
+            <div class="toolbar">
+              <button id="refreshTxLogsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thời gian</th><th>Transaction ID</th><th>Path</th><th>Method</th><th>Thời gian xử lý (ms)</th>
+                </tr>
+              </thead>
+              <tbody id="txLogsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button id="txLogsPrevBtn" class="btn-secondary btn-small">Trang trước</button>
+            <span id="txLogsPageInfo"></span>
+            <button id="txLogsNextBtn" class="btn-secondary btn-small">Trang sau</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Log cập nhật giá</h2>
+            <div class="toolbar">
+              <button id="refreshPriceLogsBtn" class="btn-secondary">Làm mới</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thời gian</th><th>Mã sản phẩm</th><th>Giá</th><th>Mã yêu cầu</th><th>Mô tả</th>
+                </tr>
+              </thead>
+              <tbody id="priceLogsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button id="priceLogsPrevBtn" class="btn-secondary btn-small">Trang trước</button>
+            <span id="priceLogsPageInfo"></span>
+            <button id="priceLogsNextBtn" class="btn-secondary btn-small">Trang sau</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 </div>
 
-<!-- Modal: tao may moi -->
+<!-- Modal: tạo máy mới -->
 <div id="newDeviceModal" class="modal-backdrop" style="display:none;">
   <div class="modal">
-    <h2>Tao may kiosk moi</h2>
-    <div id="newDeviceForm">
-      <label>Ma may (deviceCode) *</label>
+    <div class="modal-header">
+      <h2>Tạo máy kiosk mới</h2>
+      <button class="modal-x" data-close="newDeviceModal">&times;</button>
+    </div>
+    <div id="newDeviceForm" class="modal-body">
+      <label>Mã máy (deviceCode) *</label>
       <input type="text" id="dcCode" required>
-      <label>Ma cua hang (storeId)</label>
-      <input type="number" id="dcStoreId">
-      <label>Ten cua hang</label>
-      <input type="text" id="dcStoreName">
-      <label>Ghi chu</label>
-      <input type="text" id="dcNote">
-      <div class="modal-actions">
-        <button id="dcCancel" class="btn-secondary">Huy</button>
-        <button id="dcSubmit" class="btn-primary">Tao may</button>
-      </div>
+      <label>Cửa hàng đặt máy *</label>
+      <select id="dcStore" class="store-select"></select>
+    </div>
+    <div class="modal-actions">
+      <button id="dcCancel" class="btn-secondary">Hủy</button>
+      <button id="dcSubmit" class="btn-primary">Tạo máy</button>
     </div>
   </div>
 </div>
 
-<!-- Modal: hien thi ma kich hoat -->
+<!-- Modal: hiển thị mã kích hoạt -->
 <div id="activationModal" class="modal-backdrop" style="display:none;">
   <div class="modal">
-    <h2>Ma kich hoat</h2>
-    <p class="warn">Canh bao: ma nay chi hien thi 1 LAN DUY NHAT. Hay chup lai hoac ghi lai ngay.</p>
-    <div class="activation-info">
-      <div><b>Ma may:</b> <span id="actDeviceCode"></span></div>
-      <div><b>Ma kich hoat:</b> <span id="actCode" class="mono"></span></div>
-      <div><b>Het han:</b> <span id="actExpires"></span></div>
-      <div><b>QR payload (JSON):</b></div>
-      <textarea id="actQrPayload" readonly rows="3"></textarea>
+    <div class="modal-header">
+      <h2>Mã kích hoạt</h2>
+      <button class="modal-x" data-close="activationModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="warn">Cảnh báo: mã này chỉ hiển thị 1 LẦN DUY NHẤT. Hãy chụp lại hoặc ghi lại ngay.</p>
+      <div class="activation-info">
+        <div><b>Mã máy:</b> <span id="actDeviceCode"></span></div>
+        <div><b>Mã kích hoạt:</b> <span id="actCode" class="mono"></span></div>
+        <div><b>Hết hạn:</b> <span id="actExpires"></span></div>
+        <div><b>QR payload (JSON):</b></div>
+        <textarea id="actQrPayload" readonly rows="3"></textarea>
+      </div>
     </div>
     <div class="modal-actions">
-      <button id="actClose" class="btn-primary">Dong</button>
+      <button id="actClose" class="btn-primary">Đóng</button>
     </div>
   </div>
 </div>
 
-<!-- Modal: them/sua quang cao -->
+<!-- Modal: thêm/sửa quảng cáo -->
 <div id="adModal" class="modal-backdrop" style="display:none;">
   <div class="modal">
-    <h2 id="adModalTitle">Them quang cao</h2>
-    <input type="hidden" id="adId">
-    <label>Ten</label>
-    <input type="text" id="adName">
-    <label>Loai media (IMAGE / VIDEO) *</label>
-    <input type="text" id="adMediaType" required>
-    <label>URL media *</label>
-    <input type="text" id="adUrl" required>
-    <label>Loai hanh dong (NONE / PRODUCT / CATEGORY / WEBSITE) *</label>
-    <input type="text" id="adActionType" required>
-    <label>Product ID (neu PRODUCT)</label>
-    <input type="text" id="adProductId">
-    <label>Category ID (neu CATEGORY)</label>
-    <input type="text" id="adCategoryId">
-    <label>Website URL (neu WEBSITE)</label>
-    <input type="text" id="adWebsiteUrl">
-    <label>Thu tu hien thi *</label>
-    <input type="number" id="adDisplayOrder" value="0" required>
+    <div class="modal-header">
+      <h2 id="adModalTitle">Thêm quảng cáo</h2>
+      <button class="modal-x" data-close="adModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="adId">
+      <label>Tên *</label>
+      <input type="text" id="adName" maxlength="50">
+      <label>Loại media *</label>
+      <select id="adMediaType"><option value="IMAGE">Ảnh (IMAGE)</option><option value="VIDEO">Video (VIDEO)</option></select>
+      <label>URL media *</label>
+      <input type="text" id="adUrl" placeholder="http://.../anh.jpg">
+      <p class="help-text">Server tự tải file để tính checksum và dung lượng - URL phải truy cập được từ kiosk-api.</p>
+      <label>Khi khách bấm vào *</label>
+      <select id="adActionType">
+        <option value="NONE">Không làm gì</option>
+        <option value="PRODUCT">Mở sản phẩm</option>
+        <option value="CATEGORY">Mở nhóm sản phẩm</option>
+        <option value="WEBSITE">Mở website</option>
+      </select>
+      <div id="adProductRow">
+        <label>Sản phẩm</label>
+        <select id="adProductId"></select>
+      </div>
+      <div id="adCategoryRow">
+        <label>Nhóm sản phẩm</label>
+        <select id="adCategoryId"></select>
+      </div>
+      <div id="adWebsiteRow">
+        <label>Website URL</label>
+        <input type="text" id="adWebsiteUrl">
+      </div>
+      <label>Thứ tự phát (từ 1) *</label>
+      <input type="number" id="adDisplayOrder" value="1" min="1">
+      <label>Thời lượng hiển thị (giây, 1-300) *</label>
+      <input type="number" id="adDisplaySeconds" value="8" min="1" max="300">
+      <label class="checkbox-row"><input type="checkbox" id="adEnabled" checked> Đang bật</label>
+    </div>
     <div class="modal-actions">
-      <button id="adCancel" class="btn-secondary">Huy</button>
-      <button id="adSubmit" class="btn-primary">Luu</button>
+      <button id="adCancel" class="btn-secondary">Hủy</button>
+      <button id="adSubmit" class="btn-primary">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: thêm/sửa sản phẩm -->
+<div id="productModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="productModalTitle">Tạo sản phẩm</h2>
+      <button class="modal-x" data-close="productModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="productId">
+      <label>Mã sản phẩm (code) *</label>
+      <input type="text" id="productCode" required>
+      <p class="help-text">Chỉ được chứa chữ cái, chữ số, dấu gạch dưới "_" hoặc gạch ngang "-" (không dấu cách, không ký tự đặc biệt), tối đa 30 ký tự.</p>
+      <label>Tên *</label>
+      <input type="text" id="productName" required>
+      <label>Danh mục *</label>
+      <select id="productCategoryId" required><option value="">-- Chọn nhóm sản phẩm --</option></select>
+      <label>Số lượng (số bản vị) *</label>
+      <input type="number" id="productQuantity" step="any">
+      <label>Mô tả *</label>
+      <input type="text" id="productDescription">
+      <label class="checkbox-row"><input type="checkbox" id="productInvisible"> Ẩn sản phẩm (invisible)</label>
+    </div>
+    <div class="modal-actions">
+      <button id="productCancel" class="btn-secondary">Hủy</button>
+      <button id="productSubmit" class="btn-primary">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: tạo nhóm sản phẩm (category) -->
+<div id="categoryModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="categoryModalTitle">Tạo nhóm sản phẩm</h2>
+      <button class="modal-x" data-close="categoryModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="categoryId">
+      <label>Mã nhóm (code) *</label>
+      <input type="text" id="categoryCode" required>
+      <p class="help-text">Chỉ được chứa chữ cái, chữ số, "_" hoặc "-", tối đa 20 ký tự.</p>
+      <label>Tên *</label>
+      <input type="text" id="categoryName" required>
+      <label id="categoryDescriptionLabel">Mô tả *</label>
+      <input type="text" id="categoryDescription">
+    </div>
+    <div class="modal-actions">
+      <button id="categoryCancel" class="btn-secondary">Hủy</button>
+      <button id="categorySubmit" class="btn-primary">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: giá (bán ra / mua vào) -->
+<div id="priceModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Giá sản phẩm <span id="priceModalProductCode" class="mono"></span></h2>
+      <button class="modal-x" data-close="priceModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="help-text">Giá này không tự động - hệ thống thực không có nguồn giá tự động cho sản phẩm
+      quản lý thủ công, phải nhập tay và cập nhật mỗi khi cần.</p>
+      <label>Giá bán ra (BTMH bán cho khách) *</label>
+      <input type="number" id="priceSell" step="1">
+      <label>Giá mua vào (BTMH mua lại từ khách)</label>
+      <input type="number" id="priceBuy" step="1">
+      <label>Mô tả</label>
+      <input type="text" id="priceDescription">
+      <div class="subtab-label" style="margin-top:18px;">Lịch sử sửa giá (tối đa 10 dòng gần nhất)</div>
+      <div class="table-wrap table-wrap-compact">
+        <table>
+          <thead><tr><th>Lúc</th><th>Giá cũ -&gt; mới</th><th>Mua cũ -&gt; mới</th><th>Người sửa</th></tr></thead>
+          <tbody id="priceHistoryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button id="priceCancel" class="btn-secondary">Hủy</button>
+      <button id="priceSubmit" class="btn-primary">Lưu giá</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: tồn kho -->
+<div id="inventoryModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Tồn kho <span id="inventoryModalProductCode" class="mono"></span></h2>
+      <button class="modal-x" data-close="inventoryModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="inventoryId">
+      <div class="activation-info">
+        <div><b>Định mức hiện tại (originalQuantity):</b> <span id="inventoryOriginal"></span></div>
+        <div><b>Còn lại (remainingQuantity, từ Redis):</b> <span id="inventoryRemaining"></span></div>
+        <div><b>Khả dụng (availableQuantity):</b> <span id="inventoryAvailable"></span></div>
+      </div>
+      <label>Định mức mới *</label>
+      <input type="number" id="inventoryQuantity" step="1" min="0">
+      <p class="help-text"><b>Đây là ĐỊNH MỨC trong ngày, KHÔNG phải số còn lại.</b> admin-portal sẽ tự
+      tính phần chênh lệch (delta) và đồng bộ lại Redis - không nhập số còn lại mong muốn vào đây.</p>
+      <div class="subtab-label" style="margin-top:18px;">Lịch sử tồn kho (tối đa 10 dòng gần nhất)</div>
+      <div class="table-wrap table-wrap-compact">
+        <table>
+          <thead><tr><th>Lúc</th><th>Hành động</th><th>Cũ -&gt; mới</th><th>Người sửa</th></tr></thead>
+          <tbody id="inventoryHistoryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button id="inventoryCancel" class="btn-secondary">Hủy</button>
+      <button id="inventorySubmit" class="btn-primary">Lưu định mức</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: thêm/sửa banner -->
+<div id="bannerModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="bannerModalTitle">Thêm banner</h2>
+      <button class="modal-x" data-close="bannerModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="bannerId">
+      <label>Tên *</label>
+      <input type="text" id="bannerName" maxlength="255">
+      <label>URL ảnh *</label>
+      <input type="text" id="bannerImagePath" placeholder="http://.../banner.jpg">
+      <label>Mã (tùy chọn, vd mã nhóm sản phẩm liên quan)</label>
+      <input type="text" id="bannerCode" maxlength="50">
+      <label>Mô tả</label>
+      <input type="text" id="bannerDescriptions" maxlength="1000">
+      <label>Ưu tiên (từ 1, nhỏ hiện trước) *</label>
+      <input type="number" id="bannerPriority" value="1" min="1">
+      <label class="checkbox-row"><input type="checkbox" id="bannerEnabled" checked> Đang bật</label>
+    </div>
+    <div class="modal-actions">
+      <button id="bannerCancel" class="btn-secondary">Hủy</button>
+      <button id="bannerSubmit" class="btn-primary">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: đổi cửa hàng của máy -->
+<div id="deviceStoreModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Đổi cửa hàng của máy <span id="deviceStoreCode" class="mono"></span></h2>
+      <button class="modal-x" data-close="deviceStoreModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label>Cửa hàng *</label>
+      <select id="deviceStoreSelect" class="store-select"></select>
+    </div>
+    <div class="modal-actions">
+      <button id="deviceStoreCancel" class="btn-secondary">Hủy</button>
+      <button id="deviceStoreSubmit" class="btn-primary">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: sửa hạn mức -->
+<div id="limitModal" class="modal-backdrop" style="display:none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Sửa hạn mức</h2>
+      <button class="modal-x" data-close="limitModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="limitId">
+      <label>Số lượng tối đa mỗi giao dịch *</label>
+      <input type="number" id="limitQuantity" min="1" step="1">
+    </div>
+    <div class="modal-actions">
+      <button id="limitCancel" class="btn-secondary">Hủy</button>
+      <button id="limitSubmit" class="btn-primary">Lưu</button>
     </div>
   </div>
 </div>

@@ -8,21 +8,64 @@ spring:
     password: ${DB_PASSWORD:changeme}
     driver-class-name: org.postgresql.Driver
   jpa:
-    hibernate:
-      # QUAN TRONG: 3 bang kiosk_device/kiosk_activation_code/kiosk_ad da ton tai san trong DB cua
-      # webview. KHONG duoc de Hibernate tu doi schema cua nguoi khac dang dung -> dung "validate".
-      # Bang moi kiosk_admin_user duoc tao rieng bang migration SQL (xem KioskAdminUserSchemaInitializer),
-      # khong dua vao ddl-auto.
-      ddl-auto: validate
+    # QUAN TRONG: ddl-auto o day CHI con dung lam gia tri mac dinh doc boi JpaProperties (xem
+    # PrimaryPersistenceConfig/GoldPersistenceConfig) - 2 EntityManagerFactory (primary + gold)
+    # duoc khai bao THU CONG (khong con dua vao Spring Boot JPA auto-config) vi app nay can 2
+    # Postgres datasource doc lap (xem README phan "2 database"). Ca 2 EMF deu set
+    # hibernate.hbm2ddl.auto=validate ngay trong code - KHONG duoc de Hibernate tu doi schema cua
+    # nguoi khac dang dung.
     show-sql: ${SHOW_SQL:false}
     properties:
       hibernate:
         format_sql: true
 
+# Datasource THU 2 - DB "gold_management" ma Backend/admin-portal dang dung, noi THUC SU chua
+# bang product_prices (gia ban ra/mua vao) va la nha cua bang moi kiosk_admin_price_history
+# (xem golddb/GoldPersistenceConfig va README phan "Kien truc / quyet dinh ky thuat"). Mac dinh
+# khop voi .env cua Backend/admin-portal luc dev local.
+gold:
+  datasource:
+    url: jdbc:postgresql://${GOLD_DB_HOST:localhost}:${GOLD_DB_PORT:5432}/${GOLD_DB_NAME:gold_management}
+    username: ${GOLD_DB_USER:gold_management}
+    password: ${GOLD_DB_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
+
+# Ket noi sang Backend/admin-portal - kiosk-admin la HTTP CLIENT cua admin-portal cho
+# product/category/inventory (xem AdminPortalClient / README). Tai khoan ky thuat
+# ADMIN_PORTAL_USERNAME/PASSWORD phai da duoc cap quyen partner_code=KIOSK ben admin-portal.
+admin-portal:
+  base-url: ${ADMIN_PORTAL_BASE_URL:http://localhost:8386}
+  username: ${ADMIN_PORTAL_USERNAME:}
+  password: ${ADMIN_PORTAL_PASSWORD:}
+
+# Ket noi sang Backend/webview - doc trang thai "online ngay bay gio" (KioskSseConnectionRegistry,
+# chi song trong RAM webview) de hien o man Danh sach may, khac voi status=ACTIVE tinh (xem
+# WebviewClient / KioskDeviceService).
+webview:
+  base-url: ${WEBVIEW_BASE_URL:http://localhost:8080}
+  internal-service-key: ${WEBVIEW_INTERNAL_SERVICE_KEY:}
+
+# Bao Backend/kiosk-api ngay sau khi sua san pham/gia/nhom/ton de App cap nhat qua SSE trong ~1 giay
+# (xem KioskApiNotifier). Bo trong base-url = tat, App van nhan qua vong poll 5 giay cua kiosk-api.
+kiosk-api:
+  base-url: ${KIOSK_API_BASE_URL:}
+  ops-key: ${KIOSK_API_OPS_KEY:}
+
 kiosk:
   jwt:
     secret: ${KIOSK_JWT_SECRET:kiosk-admin-local-dev-secret-change-me-please-32bytes-min}
     expiration-ms: ${KIOSK_JWT_EXPIRATION_MS:28800000}
+
+management:
+  # Chi expose /actuator/health (phuc vu Docker HEALTHCHECK) - KHONG expose env/beans/... vi
+  # nhung endpoint do co the lo config/secret.
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
 
 logging:
   level:

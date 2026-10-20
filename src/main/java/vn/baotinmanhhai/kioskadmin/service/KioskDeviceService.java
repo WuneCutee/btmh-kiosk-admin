@@ -32,21 +32,26 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class KioskDeviceService {
 
-    private static final String BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+    // BUG THAT da tim thay 15/10/2026 (khop voi webview - port 1:1 tu KioskDeviceAdminService.java): bang nay
+    // TRUOC DAY la Base32 chuan, khong khop voi app that (ActivationInput.kt: khong co I/L/O/U, co ca 0/1,
+    // tu doi I/L->1 va O->0 khi nhan vien go tay) - nhan vien khong go duoc dung moi ma chua I/O/L/U.
+    private static final String BASE32_ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
     private static final int ACTIVATION_CODE_LENGTH = 12;
     private static final Duration ACTIVATION_CODE_TTL = Duration.ofHours(24);
 
     private final KioskDeviceRepository kioskDeviceRepository;
     private final KioskActivationCodeRepository kioskActivationCodeRepository;
     private final ObjectMapper objectMapper;
+    private final WebviewClient webviewClient;
     private final SecureRandom secureRandom = new SecureRandom();
 
     public List<DeviceResponse> listAll() {
-        return kioskDeviceRepository.findAll().stream().map(KioskDeviceService::toDto).toList();
+        java.util.Set<String> online = webviewClient.onlineDeviceCodes();
+        return kioskDeviceRepository.findAll().stream().map(d -> toDto(d, online)).toList();
     }
 
     public DeviceResponse getByCode(String deviceCode) {
-        return toDto(findDeviceOrThrow(deviceCode));
+        return toDto(findDeviceOrThrow(deviceCode), webviewClient.onlineDeviceCodes());
     }
 
     @Transactional
@@ -89,14 +94,14 @@ public class KioskDeviceService {
     public DeviceResponse revoke(String deviceCode) {
         KioskDevice device = findDeviceOrThrow(deviceCode);
         device.setStatus(KioskDevice.STATUS_REVOKED);
-        return toDto(kioskDeviceRepository.save(device));
+        return toDto(kioskDeviceRepository.save(device), webviewClient.onlineDeviceCodes());
     }
 
     @Transactional
     public DeviceResponse forceKeyRotation(String deviceCode) {
         KioskDevice device = findDeviceOrThrow(deviceCode);
         device.setForceKeyRotation(true);
-        return toDto(kioskDeviceRepository.save(device));
+        return toDto(kioskDeviceRepository.save(device), webviewClient.onlineDeviceCodes());
     }
 
     @Transactional
@@ -156,7 +161,7 @@ public class KioskDeviceService {
                 .orElseThrow(() -> new BusinessException("Khong tim thay may kiosk: " + deviceCode, "404", 404));
     }
 
-    private static DeviceResponse toDto(KioskDevice d) {
+    private static DeviceResponse toDto(KioskDevice d, java.util.Set<String> online) {
         return DeviceResponse.builder()
                 .deviceCode(d.getDeviceCode())
                 .publicKey(d.getPublicKey())
@@ -172,6 +177,7 @@ public class KioskDeviceService {
                 .activatedAt(d.getActivatedAt())
                 .lastRotatedAt(d.getLastRotatedAt())
                 .forceKeyRotation(d.isForceKeyRotation())
+                .online(online.contains(d.getDeviceCode()))
                 .build();
     }
 }
